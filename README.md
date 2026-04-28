@@ -9,26 +9,17 @@ Sovelluksessa on tällä hetkellä toteutettu osa 1 ja jatkokehitys tehdään os
 
 ## Käytetyt teknologiat
 
-React
-TypeScript
-MUI
-DataGrid
-Vite
+React, TypeScript, MUI, DataGrid, Vite
 
 ## Osa 1
 
 Ensimmäisessä vaiheessa sovellukseen on toteutettu:
 
-Asiakaslista
-Harjoituslista
-Navigaatio sivujen välillä
+Asiakaslista, harjoituslista ja navigaatio sivujen välillä
 
 Listasivuilla on:
 
-Taulukkomuotoinen DataGrid näkymä
-Tietojen haku REST APIsta
-Sarakkeiden järjestely
-Suodatus eri kenttien perusteella
+Taulukkomuotoinen DataGrid näkymä, tietojen haku REST APIsta, sarakkeiden järjestely ja suodatus eri kenttien perusteella
 
 Harjoituksissa näytetään myös asiakkaan nimi.
 
@@ -36,7 +27,7 @@ Päivämäärät on muotoiltu selkeämpään muotoon taulukossa.
 
 ## Jatkokehitys
 
-Osa 2 tulee sisältämään CRUD toiminnot asiakkaille ja harjoituksille, kuten lisäys, muokkaus ja poisto sekä vahvistukset poistoihin.
+Osa 2 tulee sisältämään CRUD-toiminnot asiakkaille ja harjoituksille, kuten lisäys, muokkaus ja poisto sekä vahvistukset poistoihin.
 
 Osa 3 lisää CSV export -toiminnallisuuden sekä kalenterin, jossa harjoitukset näkyvät eri näkymissä.
 
