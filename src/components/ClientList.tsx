@@ -31,19 +31,19 @@ function ClientList() {
   };
 
   const handleDelete = (url: string) => {
-    if (window.confirm("Haluatko varmasti poistaa asiakkaan?")) {
-      fetch(url, {
-        method: "DELETE"
+    if (!window.confirm("Haluatko varmasti poistaa asiakkaan?")) return;
+
+    fetch(url, {
+      method: "DELETE"
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Error deleting client");
+        }
+        getClients();
+        setOpen(true);
       })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("Error deleting client");
-          }
-          getClients();
-          setOpen(true);
-        })
-        .catch(err => console.error(err));
-    }
+      .catch(err => console.error(err));
   };
 
   const handleUpdate = (url: string, updatedClient: Client) => {
@@ -59,6 +59,7 @@ function ClientList() {
           throw new Error("Error updating client");
         }
         getClients();
+        setOpen(true);
       })
       .catch(err => console.error(err));
   };
@@ -68,6 +69,7 @@ function ClientList() {
     { field: "lastname", headerName: "Sukunimi", width: 180 },
     { field: "email", headerName: "Email", width: 220 },
     { field: "phone", headerName: "Puhelin", width: 160 },
+
     {
       field: "_links.self.href",
       headerName: "",

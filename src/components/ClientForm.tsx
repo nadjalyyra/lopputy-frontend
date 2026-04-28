@@ -1,77 +1,69 @@
 import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
-
 import type { Client } from "../types";
 
-type ClientFormProps = {
+type Props = {
   client: Client;
   setClient: React.Dispatch<React.SetStateAction<Client>>;
 };
 
-export default function ClientForm({ client, setClient }: ClientFormProps) {
+export default function ClientForm({ client, setClient }: Props) {
   return (
     <DialogContent>
       <TextField
-        margin="dense"
-        label="First name"
+        label="Etunimi"
         value={client.firstname}
         onChange={e => setClient({ ...client, firstname: e.target.value })}
         fullWidth
-        variant="standard"
+        margin="dense"
       />
 
       <TextField
-        margin="dense"
-        label="Last name"
+        label="Sukunimi"
         value={client.lastname}
         onChange={e => setClient({ ...client, lastname: e.target.value })}
         fullWidth
-        variant="standard"
+        margin="dense"
       />
 
       <TextField
-        margin="dense"
-        label="Street address"
-        value={client.streetaddress}
-        onChange={e => setClient({ ...client, streetaddress: e.target.value })}
-        fullWidth
-        variant="standard"
-      />
-
-      <TextField
-        margin="dense"
-        label="Postal code"
-        value={client.postcode}
-        onChange={e => setClient({ ...client, postcode: e.target.value })}
-        fullWidth
-        variant="standard"
-      />
-
-      <TextField
-        margin="dense"
-        label="City"
-        value={client.city}
-        onChange={e => setClient({ ...client, city: e.target.value })}
-        fullWidth
-        variant="standard"
-      />
-
-      <TextField
-        margin="dense"
         label="Email"
         value={client.email}
         onChange={e => setClient({ ...client, email: e.target.value })}
         fullWidth
-        variant="standard"
+        margin="dense"
       />
 
       <TextField
-        margin="dense"
-        label="Phone"
+        label="Puhelin"
         value={client.phone}
         onChange={e => setClient({ ...client, phone: e.target.value })}
         fullWidth
-        variant="standard"
+        margin="dense"
+      />
+
+      <TextField
+        label="Osoite"
+        value={client.streetaddress}
+        onChange={e => setClient({ ...client, streetaddress: e.target.value })}
+        fullWidth
+        margin="dense"
+      />
+
+      <TextField
+        label="Postinumero"
+        value={client.postcode}
+        onChange={e => setClient({ ...client, postcode: e.target.value })}
+        fullWidth
+        margin="dense"
+      />
+
+      <TextField
+        label="Kaupunki"
+        value={client.city}
+        onChange={e => setClient({ ...client, city: e.target.value })}
+        fullWidth
+        margin="dense"
       />
     </DialogContent>
   );
