@@ -1,5 +1,3 @@
-import type { Training } from "../types";
-
 export const fetchTrainings = () => {
   return fetch(import.meta.env.VITE_API_URL + "/trainings")
     .then(res => {
@@ -8,7 +6,7 @@ export const fetchTrainings = () => {
     });
 };
 
-export const saveTraining = (training: Training) => {
+export const saveTraining = (training: any) => {
   return fetch(import.meta.env.VITE_API_URL + "/trainings", {
     method: "POST",
     headers: {
