@@ -5,9 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
-
 import AddClient from "./AddClient";
-import EditClient from "./EditClient";
 
 import { fetchClients, saveClient } from "../api/clientapi";
 
@@ -34,7 +32,9 @@ function ClientList() {
 
   const handleDelete = (url: string) => {
     if (window.confirm("Haluatko varmasti poistaa asiakkaan?")) {
-      fetch(url, { method: "DELETE" })
+      fetch(url, {
+        method: "DELETE"
+      })
         .then(response => {
           if (!response.ok) {
             throw new Error("Error deleting client");
@@ -46,30 +46,49 @@ function ClientList() {
     }
   };
 
-  const handleUpdate = (url: string, updatedClient: Client) => {
-    fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(updatedClient)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Error updating client");
-        }
-        getClients();
-        setOpen(true);
-      })
-      .catch(err => console.error(err));
+  // 🔹 CSV EXPORT
+  const exportCSV = () => {
+    const headers = [
+      "Etunimi",
+      "Sukunimi",
+      "Email",
+      "Puhelin",
+      "Osoite",
+      "Postinumero",
+      "Kaupunki"
+    ];
+
+    const rows = clients.map(c => [
+      c.firstname,
+      c.lastname,
+      c.email,
+      c.phone,
+      c.streetaddress,
+      c.postcode,
+      c.city
+    ]);
+
+    const csvContent =
+      [headers, ...rows]
+        .map(row => row.join(","))
+        .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "customers.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const columns: GridColDef[] = [
-    { field: "firstname", headerName: "Etunimi", width: 160 },
-    { field: "lastname", headerName: "Sukunimi", width: 160 },
+    { field: "firstname", headerName: "Etunimi", width: 180 },
+    { field: "lastname", headerName: "Sukunimi", width: 180 },
     { field: "email", headerName: "Email", width: 220 },
     { field: "phone", headerName: "Puhelin", width: 160 },
-
     {
       field: "_links.self.href",
       headerName: "",
@@ -83,15 +102,6 @@ function ClientList() {
           POISTA
         </Button>
       )
-    },
-
-    {
-      field: "edit",
-      headerName: "",
-      sortable: false,
-      renderCell: (params: GridRenderCellParams) => (
-        <EditClient client={params.row} handleUpdate={handleUpdate} />
-      )
     }
   ];
 
@@ -101,8 +111,13 @@ function ClientList() {
 
   return (
     <>
-      <Stack sx={{ mt: 2, mb: 2 }} direction="row">
+      <Stack sx={{ mt: 2, mb: 2 }} direction="row" spacing={2}>
         <AddClient handleAdd={handleAdd} />
+
+        {/* EXPORT NAPPI (osa kolmosta varten */}
+        <Button variant="outlined" onClick={exportCSV}>
+          EXPORT CSV
+        </Button>
       </Stack>
 
       <div style={{ width: "95%", height: 500, margin: "auto" }}>
