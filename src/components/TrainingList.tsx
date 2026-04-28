@@ -21,7 +21,11 @@ type TrainingRow = {
     self: {
       href: string;
     };
+    customer?: {
+      href: string;
+    };
   };
+  customerName?: string;
 };
 
 type CustomerOption = {
@@ -37,9 +41,28 @@ function TrainingList() {
   const getTrainings = () => {
     fetchTrainings()
       .then((data) => {
-        setTrainings(data._embedded?.trainings ?? []);
+        const trainingList = data._embedded?.trainings ?? [];
+        
+        // Fetch customer name for each training via the customer link
+        const trainingPromises = trainingList.map((training: TrainingRow) => {
+          const customerLink = training._links?.customer?.href;
+          if (!customerLink) {
+            return Promise.resolve(training);
+          }
+          
+          return fetch(customerLink)
+            .then(res => res.json())
+            .then(customerData => ({
+              ...training,
+              customerName: `${customerData.firstname} ${customerData.lastname}`
+            }))
+            .catch(() => training);
+        });
+        
+        Promise.all(trainingPromises)
+          .then(setTrainings);
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   };
 
   const getCustomers = () => {
@@ -53,7 +76,7 @@ function TrainingList() {
 
         setCustomers(options);
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   };
 
   const handleAdd = (training: any) => {
@@ -87,10 +110,10 @@ function TrainingList() {
       field: "customer",
       headerName: "Asiakas",
       width: 220,
-      valueGetter: (_value, row: TrainingRow) =>
-        row.customer
-          ? `${row.customer.firstname} ${row.customer.lastname}`
-          : ""
+      valueGetter: (_value, row: TrainingRow) => {
+        // Use cached customer name from fetch
+        return row.customerName || "";
+      }
     },
     {
       field: "_links.self.href",
