@@ -1,22 +1,33 @@
-import { Container, AppBar, Toolbar, Typography, CssBaseline } from "@mui/material";
+import { useState } from "react";
+import { Container, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import ClientList from "./components/ClientList";
+import TrainingList from "./components/TrainingList";
 
 function App() {
-    return (
-        <Container maxWidth="lg">
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6">
-                        Personal Trainer App
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+  const [view, setView] = useState<"clients" | "trainings">("clients");
 
-            <ClientList />
+  return (
+    <Container maxWidth="lg">
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            Personal Trainer App
+          </Typography>
 
-            <CssBaseline />
-        </Container>
-    );
+          <Button color="inherit" onClick={() => setView("clients")}>
+            Asiakkaat
+          </Button>
+
+          <Button color="inherit" onClick={() => setView("trainings")}>
+            Treenit
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      {view === "clients" && <ClientList />}
+      {view === "trainings" && <TrainingList />}
+    </Container>
+  );
 }
 
 export default App;
