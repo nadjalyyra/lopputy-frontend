@@ -46,7 +46,7 @@ function ClientList() {
     }
   };
 
-  // 🔹 CSV EXPORT
+  // CSV EXPORT
   const exportCSV = () => {
     const headers = [
       "Etunimi",
@@ -116,7 +116,7 @@ function ClientList() {
 
         {/* EXPORT NAPPI (osa kolmosta varten */}
         <Button variant="outlined" onClick={exportCSV}>
-          EXPORT CSV
+          Lataa asiakatiedot CSV:nä
         </Button>
       </Stack>
 
