@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Container, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import ClientList from "./components/ClientList";
 import TrainingList from "./components/TrainingList";
+import CalendarPage from "./components/CalendarPage";
 
 function App() {
-  const [view, setView] = useState<"clients" | "trainings">("clients");
+  const [view, setView] = useState<"clients" | "trainings" | "calendar">("clients");
 
   return (
     <Container maxWidth="lg">
@@ -21,11 +22,16 @@ function App() {
           <Button color="inherit" onClick={() => setView("trainings")}>
             Treenit
           </Button>
+
+          <Button color="inherit" onClick={() => setView("calendar")}>
+            Kalenteri
+          </Button>
         </Toolbar>
       </AppBar>
 
       {view === "clients" && <ClientList />}
       {view === "trainings" && <TrainingList />}
+      {view === "calendar" && <CalendarPage />}
     </Container>
   );
 }
