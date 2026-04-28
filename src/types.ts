@@ -1,17 +1,17 @@
 export type ClientData = {
-    name: string;
-    email: string;
-    goal: string;
-    level: string;
-    age: number;
-    _links: {
-        self: {
-            href: string;
-        },
-        client: {
-            href: string;
-        }
-    }
-}
+  firstname: string;
+  lastname: string;
+  streetaddress: string;
+  postcode: string;
+  city: string;
+  email: string;
+  phone: string;
+
+  _links: {
+    self: {
+      href: string;
+    };
+  };
+};
 
 export type Client = Omit<ClientData, "_links">;

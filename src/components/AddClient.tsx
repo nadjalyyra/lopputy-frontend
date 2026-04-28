@@ -3,48 +3,56 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
+
 import type { Client } from "../types";
 import ClientForm from "./ClientForm";
 
 type AddClientProps = {
-    handleAdd: (client: Client) => void;
+  handleAdd: (client: Client) => void;
 };
 
 export default function AddClient(props: AddClientProps) {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-    const [client, setClient] = useState<Client>({
-        name: "",
-        email: "",
-        goal: "",
-        level: "",
-        age: 0
-    });
+  const [client, setClient] = useState<Client>({
+    firstname: "",
+    lastname: "",
+    streetaddress: "",
+    postcode: "",
+    city: "",
+    email: "",
+    phone: ""
+  });
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    const handleSubmit = () => {
-        props.handleAdd(client);
-        handleClose();
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    return (
-        <>
-            <Button variant="outlined" onClick={handleOpen}>
-                Add Client
-            </Button>
+  const handleSubmit = () => {
+    props.handleAdd(client);
+    handleClose();
+  };
 
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>New Client</DialogTitle>
+  return (
+    <>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Add client
+      </Button>
 
-                <ClientForm client={client} setClient={setClient} />
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>New client</DialogTitle>
 
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSubmit}>Save</Button>
-                </DialogActions>
-            </Dialog>
-        </>
-    );
+        <ClientForm client={client} setClient={setClient} />
+
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSubmit}>Save</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
 }
