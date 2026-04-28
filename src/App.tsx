@@ -51,6 +51,7 @@ function App() {
           margin: 0,
           padding: 12,
           boxSizing: "border-box",
+
         }}
       >
         {view === "clients" && <ClientList />}
