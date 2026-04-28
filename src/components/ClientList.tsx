@@ -5,7 +5,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
+
 import AddClient from "./AddClient";
+import EditClient from "./EditClient";
 
 import { fetchClients, saveClient } from "../api/clientapi";
 
@@ -31,19 +33,17 @@ function ClientList() {
   };
 
   const handleDelete = (url: string) => {
-    if (!window.confirm("Haluatko varmasti poistaa asiakkaan?")) return;
-
-    fetch(url, {
-      method: "DELETE"
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Error deleting client");
-        }
-        getClients();
-        setOpen(true);
-      })
-      .catch(err => console.error(err));
+    if (window.confirm("Haluatko varmasti poistaa asiakkaan?")) {
+      fetch(url, { method: "DELETE" })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Error deleting client");
+          }
+          getClients();
+          setOpen(true);
+        })
+        .catch(err => console.error(err));
+    }
   };
 
   const handleUpdate = (url: string, updatedClient: Client) => {
@@ -65,8 +65,8 @@ function ClientList() {
   };
 
   const columns: GridColDef[] = [
-    { field: "firstname", headerName: "Etunimi", width: 180 },
-    { field: "lastname", headerName: "Sukunimi", width: 180 },
+    { field: "firstname", headerName: "Etunimi", width: 160 },
+    { field: "lastname", headerName: "Sukunimi", width: 160 },
     { field: "email", headerName: "Email", width: 220 },
     { field: "phone", headerName: "Puhelin", width: 160 },
 
@@ -82,6 +82,15 @@ function ClientList() {
         >
           POISTA
         </Button>
+      )
+    },
+
+    {
+      field: "edit",
+      headerName: "",
+      sortable: false,
+      renderCell: (params: GridRenderCellParams) => (
+        <EditClient client={params.row} handleUpdate={handleUpdate} />
       )
     }
   ];
