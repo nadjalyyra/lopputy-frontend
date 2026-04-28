@@ -15,7 +15,6 @@ export default function ClientForm({ client, setClient }: Props) {
         value={client.firstname}
         onChange={e => setClient({ ...client, firstname: e.target.value })}
         fullWidth
-        margin="dense"
       />
 
       <TextField
@@ -23,7 +22,6 @@ export default function ClientForm({ client, setClient }: Props) {
         value={client.lastname}
         onChange={e => setClient({ ...client, lastname: e.target.value })}
         fullWidth
-        margin="dense"
       />
 
       <TextField
@@ -31,7 +29,6 @@ export default function ClientForm({ client, setClient }: Props) {
         value={client.email}
         onChange={e => setClient({ ...client, email: e.target.value })}
         fullWidth
-        margin="dense"
       />
 
       <TextField
@@ -39,7 +36,6 @@ export default function ClientForm({ client, setClient }: Props) {
         value={client.phone}
         onChange={e => setClient({ ...client, phone: e.target.value })}
         fullWidth
-        margin="dense"
       />
 
       <TextField
@@ -47,7 +43,6 @@ export default function ClientForm({ client, setClient }: Props) {
         value={client.streetaddress}
         onChange={e => setClient({ ...client, streetaddress: e.target.value })}
         fullWidth
-        margin="dense"
       />
 
       <TextField
@@ -55,7 +50,6 @@ export default function ClientForm({ client, setClient }: Props) {
         value={client.postcode}
         onChange={e => setClient({ ...client, postcode: e.target.value })}
         fullWidth
-        margin="dense"
       />
 
       <TextField
@@ -63,7 +57,6 @@ export default function ClientForm({ client, setClient }: Props) {
         value={client.city}
         onChange={e => setClient({ ...client, city: e.target.value })}
         fullWidth
-        margin="dense"
       />
     </DialogContent>
   );
