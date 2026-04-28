@@ -1,99 +1,85 @@
-import { useEffect, useState, useCallback } from "react";
-import { Calendar, momentLocalizer, type View } from "react-big-calendar";
-import moment from "moment";
+import { useEffect, useState } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import { fetchTrainings } from "../api/trainingapi";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-
-const localizer = momentLocalizer(moment);
-
-moment.locale("fi-FI");
+import "../App.css";
 
 type TrainingEvent = {
-  id: number;
+  id: string;
   title: string;
   start: Date;
   end: Date;
-  allDay?: boolean;
 };
 
 function CalendarPage() {
   const [events, setEvents] = useState<TrainingEvent[]>([]);
-  const [view, setView] = useState<View>("week");
-
-  const handleViewChange = useCallback((newView: View) => {
-    setView(newView);
-  }, []);
 
   useEffect(() => {
     fetchTrainings()
       .then((data) => {
         const trainingList = data._embedded?.trainings ?? [];
-        
-        // Asiakkaan nimen hakeminen
+
         const trainingPromises = trainingList.map((training: any) => {
           const customerLink = training._links?.customer?.href;
+
           if (!customerLink) {
-            return Promise.resolve({ training, customerName: "Tuntematon" });
-          }
-          
-          return fetch(customerLink)
-            .then(res => res.json())
-            .then(customerData => ({
+            return Promise.resolve({
               training,
-              customerName: `${customerData.firstname} ${customerData.lastname}`
+              customerName: "Tuntematon",
+            });
+          }
+
+          return fetch(customerLink)
+            .then((res) => res.json())
+            .then((customerData) => ({
+              training,
+              customerName: `${customerData.firstname} ${customerData.lastname}`,
             }))
-            .catch(() => ({ training, customerName: "Tuntematon" }));
+            .catch(() => ({
+              training,
+              customerName: "Tuntematon",
+            }));
         });
-        
+
         return Promise.all(trainingPromises);
       })
       .then((results: any[]) => {
         const calendarEvents: TrainingEvent[] = results.map((result) => {
           const { training, customerName } = result;
-          
-          console.log("Raw date from API:", training.date);
-          
-          const start = moment(training.date).toDate();
-          const end = moment(start).add(training.duration, "minutes").toDate();
-          
-          console.log("Parsed start:", start, "Parsed end:", end);
-          
+
+          const start = new Date(training.date);
+          const end = new Date(
+            new Date(training.date).getTime() + training.duration * 60000
+          );
+
           return {
             id: training._links.self.href,
             title: `${training.activity} - ${customerName}`,
             start,
-            end
+            end,
           };
         });
-        
-        console.log("All events:", calendarEvents);
+
         setEvents(calendarEvents);
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }, []);
 
   return (
-    <div style={{ height: 600, padding: 20 }}>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 600 }}
-        view={view}
-        onView={handleViewChange}
-        views={["day", "week", "month"]}
-        defaultView="week"
-        culture="fi-FI"
-        messages={{
-          today: "Tänään",
-          previous: "<",
-          next: ">",
-          month: "Kuukausi",
-          week: "Viikko",
-          day: "Päivä",
-          agenda: "Agenda"
+    <div style={{ padding: 20 }}>
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView="timeGridWeek"
+        height="80vh"
+        headerToolbar={{
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay",
         }}
+        events={events}
+        eventDisplay="block"
       />
     </div>
   );

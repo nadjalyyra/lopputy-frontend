@@ -1,38 +1,63 @@
 import { useState } from "react";
-import { Container, AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import ClientList from "./components/ClientList";
 import TrainingList from "./components/TrainingList";
 import CalendarPage from "./components/CalendarPage";
 
 function App() {
-  const [view, setView] = useState<"clients" | "trainings" | "calendar">("clients");
+  const [view, setView] = useState<"clients" | "trainings" | "calendar">(
+    "clients"
+  );
 
   return (
-    <Container maxWidth="lg">
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+    <>
+      <AppBar
+        position="static"
+        sx={{
+          width: "100%",
+          backgroundColor: "#ec4899",
+          boxShadow: "0 6px 20px rgba(236,72,153,0.25)",
+        }}
+      >
+        <Toolbar
+          sx={{
+            width: "100%",
+            px: 2,
+            display: "flex",
+            gap: 1,
+          }}
+        >
+          <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 700 }}>
             Personal Trainer App
           </Typography>
 
-          <Button color="inherit" onClick={() => setView("clients")}>
+          <Button sx={{ color: "white" }} onClick={() => setView("clients")}>
             Asiakkaat
           </Button>
 
-          <Button color="inherit" onClick={() => setView("trainings")}>
+          <Button sx={{ color: "white" }} onClick={() => setView("trainings")}>
             Treenit
           </Button>
 
-          <Button color="inherit" onClick={() => setView("calendar")}>
+          <Button sx={{ color: "white" }} onClick={() => setView("calendar")}>
             Kalenteri
           </Button>
         </Toolbar>
       </AppBar>
 
-      {view === "clients" && <ClientList />}
-      {view === "trainings" && <TrainingList />}
-      {view === "calendar" && <CalendarPage />}
-    </Container>
+      <main
+        style={{
+          width: "100%",
+          margin: 0,
+          padding: 12,
+          boxSizing: "border-box",
+        }}
+      >
+        {view === "clients" && <ClientList />}
+        {view === "trainings" && <TrainingList />}
+        {view === "calendar" && <CalendarPage />}
+      </main>
+    </>
   );
 }
 
