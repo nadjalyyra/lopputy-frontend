@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { DataGrid, type GridColDef } from "@mui/x-data-grid";
+import type { Client, ClientData } from "../types";
+import type { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
+import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
-
 import AddClient from "./AddClient";
+
 import { fetchClients, saveClient } from "../api/clientapi";
-import type { Client, ClientData } from "../types";
 
 function ClientList() {
   const [clients, setClients] = useState<ClientData[]>([]);
@@ -13,17 +15,11 @@ function ClientList() {
 
   const getClients = () => {
     fetchClients()
-      .then((data: any) => {
-        setClients(data._embedded.customers);
+      .then(data => {
+        setClients(data._embedded?.customers ?? []);
       })
-      .catch((err: unknown) => {
-        console.error(err);
-      });
+      .catch(err => console.error(err));
   };
-
-  useEffect(() => {
-    getClients();
-  }, []);
 
   const handleAdd = (client: Client) => {
     saveClient(client)
@@ -31,20 +27,66 @@ function ClientList() {
         getClients();
         setOpen(true);
       })
-      .catch((err: unknown) => {
-        console.error(err);
-      });
+      .catch(err => console.error(err));
+  };
+
+  const handleDelete = (url: string) => {
+    if (window.confirm("Haluatko varmasti poistaa asiakkaan?")) {
+      fetch(url, {
+        method: "DELETE"
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Error deleting client");
+          }
+          getClients();
+          setOpen(true);
+        })
+        .catch(err => console.error(err));
+    }
+  };
+
+  const handleUpdate = (url: string, updatedClient: Client) => {
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updatedClient)
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Error updating client");
+        }
+        getClients();
+      })
+      .catch(err => console.error(err));
   };
 
   const columns: GridColDef[] = [
-    { field: "firstname", headerName: "First name", width: 150 },
-    { field: "lastname", headerName: "Last name", width: 150 },
-    { field: "streetaddress", headerName: "Address", width: 200 },
-    { field: "postcode", headerName: "Postal code", width: 120 },
-    { field: "city", headerName: "City", width: 150 },
-    { field: "email", headerName: "Email", width: 200 },
-    { field: "phone", headerName: "Phone", width: 150 }
+    { field: "firstname", headerName: "Etunimi", width: 180 },
+    { field: "lastname", headerName: "Sukunimi", width: 180 },
+    { field: "email", headerName: "Email", width: 220 },
+    { field: "phone", headerName: "Puhelin", width: 160 },
+    {
+      field: "_links.self.href",
+      headerName: "",
+      sortable: false,
+      renderCell: (params: GridRenderCellParams) => (
+        <Button
+          color="error"
+          size="small"
+          onClick={() => handleDelete(params.id as string)}
+        >
+          POISTA
+        </Button>
+      )
+    }
   ];
+
+  useEffect(() => {
+    getClients();
+  }, []);
 
   return (
     <>
@@ -58,15 +100,15 @@ function ClientList() {
           columns={columns}
           getRowId={row => row._links.self.href}
           autoPageSize
-          rowSelection={false}
+          disableRowSelectionOnClick
         />
       </div>
 
       <Snackbar
         open={open}
         autoHideDuration={3000}
-        message="Client added"
         onClose={() => setOpen(false)}
+        message="Toiminto onnistui"
       />
     </>
   );
