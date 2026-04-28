@@ -15,3 +15,15 @@ export type ClientData = {
 };
 
 export type Client = Omit<ClientData, "_links">;
+
+export type Training = {
+  date: string;
+  activity: string;
+  duration: number;
+  customer: string;
+};
+
+export type CustomerOption = {
+  value: string;
+  label: string;
+};
