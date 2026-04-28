@@ -1,32 +1,43 @@
 import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
-import type { Training } from "../types";
-import React from "react";
+import MenuItem from "@mui/material/MenuItem";
+
+type CustomerOption = {
+  value: string;
+  label: string;
+};
 
 type TrainingFormProps = {
-  training: Training;
-  setTraining: React.Dispatch<React.SetStateAction<Training>>;
+  training: {
+    date: string;
+    activity: string;
+    duration: number;
+    customer: string;
+  };
+  setTraining: React.Dispatch<React.SetStateAction<any>>;
+  customers: CustomerOption[];
 };
 
 export default function TrainingForm({
   training,
-  setTraining
+  setTraining,
+  customers
 }: TrainingFormProps) {
   return (
     <DialogContent>
+
       <TextField
-        label="Activity"
+        label="Aktiviteetti"
         value={training.activity}
         onChange={(e) =>
           setTraining({ ...training, activity: e.target.value })
         }
         fullWidth
         margin="dense"
-        variant="standard"
       />
 
       <TextField
-        label="Duration (min)"
+        label="Kesto (min)"
         type="number"
         value={training.duration}
         onChange={(e) =>
@@ -37,11 +48,10 @@ export default function TrainingForm({
         }
         fullWidth
         margin="dense"
-        variant="standard"
       />
 
       <TextField
-        label="Date"
+        label="Päivämäärä"
         type="datetime-local"
         value={training.date}
         onChange={(e) =>
@@ -49,7 +59,6 @@ export default function TrainingForm({
         }
         fullWidth
         margin="dense"
-        variant="standard"
         slotProps={{
           inputLabel: {
             shrink: true
@@ -58,16 +67,22 @@ export default function TrainingForm({
       />
 
       <TextField
-        label="Customer URL"
+        select
+        label="Asiakas"
         value={training.customer}
         onChange={(e) =>
           setTraining({ ...training, customer: e.target.value })
         }
         fullWidth
         margin="dense"
-        variant="standard"
-        helperText="Esim. https://.../api/customers/123"
-      />
+      >
+        {customers.map((c) => (
+          <MenuItem key={c.value} value={c.value}>
+            {c.label}
+          </MenuItem>
+        ))}
+      </TextField>
+
     </DialogContent>
   );
 }
