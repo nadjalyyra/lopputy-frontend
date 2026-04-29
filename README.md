@@ -1,4 +1,4 @@
-# Personal Trainer App: Front End ohjelmoinnin loppytö
+# Personal Trainer App: Front End ohjelmoinnin lopputyö
 
 Tämä on Reactilla, TypeScriptillä ja MUI-kirjastolla luotu käyttöliittymä Personal Trainer yritykselle. Sovellus käyttää valmista REST APIa, johon tallennetaan asiakas- ja harjoitustietoja.
 
