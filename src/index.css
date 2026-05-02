@@ -55,14 +55,13 @@
   }
 }
 
-/* RESET */
 body {
   margin: 0;
   width: 100%;
   overflow-x: hidden;
 }
 
-/* FULL WIDTH APP */
+/* KOKOLEVYINEN */
 #root {
   width: 100%;
   max-width: 100% !important;

@@ -43,7 +43,7 @@ function TrainingList() {
       .then((data) => {
         const trainingList = data._embedded?.trainings ?? [];
         
-        // Fetch customer name for each training via the customer link
+        // Asiakkaan nimen hakeminen treeniin
         const trainingPromises = trainingList.map((training: TrainingRow) => {
           const customerLink = training._links?.customer?.href;
           if (!customerLink) {
@@ -111,7 +111,6 @@ function TrainingList() {
       headerName: "Asiakas",
       width: 220,
       valueGetter: (_value, row: TrainingRow) => {
-        // Use cached customer name from fetch
         return row.customerName || "";
       }
     },
