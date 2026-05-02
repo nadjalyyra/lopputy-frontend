@@ -11,6 +11,10 @@ Sovelluksessa on tällä hetkellä toteutettu osa 1 ja jatkokehitys tehdään os
 
 React, TypeScript, MUI, DataGrid, Vite
 
+## Versionhallinta
+
+Projektissa käytetään Git versionhallintaa koko kehityksen ajan.
+
 ## Osa 1
 
 Ensimmäisessä vaiheessa sovellukseen on toteutettu:
@@ -25,17 +29,14 @@ Harjoituksissa näytetään myös asiakkaan nimi.
 
 Päivämäärät on muotoiltu selkeämpään muotoon taulukossa.
 
-## Jatkokehitys
+## Osa 2
 
-Osa 2 tulee sisältämään CRUD-toiminnot asiakkaille ja harjoituksille, kuten lisäys, muokkaus ja poisto sekä vahvistukset poistoihin.
+CRUD-toiminnot asiakkaille ja harjoituksille, kuten lisäys, muokkaus ja poisto sekä vahvistukset poistoihin.
 
-Osa 3 lisää CSV export -toiminnallisuuden sekä kalenterin, jossa harjoitukset näkyvät eri näkymissä.
+## Osa 2
 
-Osa 4 tulee sisältämään tilastosivun, jossa harjoituksia voidaan tarkastella graafisesti eri aktiviteettien mukaan.
+ CSV export -toiminnallisuus sekä kalenteri, jossa harjoitukset näkyvät eri näkymissä.
 
-## Versionhallinta
-
-Projektissa käytetään Git versionhallintaa koko kehityksen ajan.
 
 ## Oppimispäiväkirja ja esittely
 
